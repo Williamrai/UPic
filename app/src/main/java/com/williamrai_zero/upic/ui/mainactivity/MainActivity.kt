@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 imageAdapter.postData(response)
                 }
             }
-            
+
             // until response is filled runs progress bar
             if (response.isNotEmpty()) {
                 binding.progressBar.visibility = View.GONE
