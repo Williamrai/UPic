@@ -8,4 +8,4 @@
 5. Coil(Coroutine Image Loader)
 
 ## High Level Design Overview
-![Modules](Screen Shot 2022-04-13 at 7.24.21 AM.png)
+![modules](Screen Shot 2022-04-13 at 7.24.21 AM.png)
