@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">UPic</string>
+    <string name="save">Save</string>
+    <string name="enable">Enable</string>
+    <string name="enable_storage_permission_to_save_image">Storage permission is required to save the image</string>
+    <string name="file_key">COLOR_PREF</string>
+    <string name="green">green</string>
+    <string name="red">red</string>
+    <string name="color">color</string>
+
+</resources>
