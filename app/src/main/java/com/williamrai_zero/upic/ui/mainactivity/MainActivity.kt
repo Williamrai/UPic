@@ -43,17 +43,12 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnImageListener {
             binding.llNoConnection.visibility = View.GONE
         }
 
-        Log.d("values","${sharedPref.getBoolean(getString(R.string.first_load),false)}")
-
     }
 
     private fun init() {
         defaultLoadState()
-        // call to network for data
-        observerForImages(true)
-        // recyclerView
+        observerForImages()
         setupRecyclerView()
-
     }
 
     private fun defaultLoadState() {
@@ -66,10 +61,9 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnImageListener {
     }
 
 
-    private fun observerForImages(isFirsLoad: Boolean) {
+    private fun observerForImages() {
         imageViewModel.responseImage.observe(this) { response ->
             when (response) {
-                // when response is successful
                 is Resource.Success -> {
                     hideProgressBar()
                     // sets images to recyclerview adapter
@@ -77,15 +71,20 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnImageListener {
                         imageAdapter.postData(images)
                     }
 
+                    // updates the value of the key first_load in sharedPreferences
                     with(sharedPref.edit()) {
                         putBoolean(getString(R.string.first_load),false)
                         commit()
                     }
                 }
 
+
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
+                        // this check makes it possible for the app to produce error info based on user activity
+                        // when user opens app without internet this if condition is true
+                        // otherwise user opens app with internet and later internet is not found then false condition runs
                         if(sharedPref.getBoolean(getString(R.string.first_load),false)) {
                             binding.llNoConnection.visibility = View.VISIBLE
 

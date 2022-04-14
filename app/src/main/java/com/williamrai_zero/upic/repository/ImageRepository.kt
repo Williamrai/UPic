@@ -1,6 +1,6 @@
 package com.williamrai_zero.upic.repository
 
-import com.williamrai_zero.upic.source.remote.ImageService
+import com.williamrai_zero.upic.remote.ImageService
 import javax.inject.Inject
 
 

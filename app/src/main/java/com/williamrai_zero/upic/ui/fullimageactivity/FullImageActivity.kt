@@ -1,27 +1,18 @@
 package com.williamrai_zero.upic.ui.fullimageactivity
 
 import android.Manifest
-import android.content.Context
-import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
-import com.williamrai_zero.upic.R
 import com.williamrai_zero.upic.databinding.ActivityFullImageBinding
 import com.williamrai_zero.upic.util.ImageStorage
 import kotlinx.coroutines.CoroutineScope
@@ -32,8 +23,6 @@ import kotlinx.coroutines.withContext
 class FullImageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFullImageBinding
     private lateinit var imageStorage: ImageStorage
-    private var readPermissionGranted = false
-    private var writePermissionGranted = false
     private lateinit var url: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,13 +37,13 @@ class FullImageActivity : AppCompatActivity() {
 
         binding.apply {
             btnSave.setOnClickListener {
-                onUpdateRequestPermission()
+                onUpdateOrRequestStoragePermission()
             }
         }
     }
 
     /**
-     *
+     * @param {String} url location of the image
      */
     private fun loadImageIntoView(url: String?) {
         val circularProgressDrawable = CircularProgressDrawable(this)
@@ -80,15 +69,16 @@ class FullImageActivity : AppCompatActivity() {
             if (isGranted) {
                 saveImage(url)
             } else {
-                onUpdateRequestPermission()
+                onUpdateOrRequestStoragePermission()
             }
 
         }
 
     /**
-     *
+     * the function enables permission request for API level below 29 and handles deny request permission
+     * for above API level 29, we don't need write permission
      */
-    private fun onUpdateRequestPermission() {
+    private fun onUpdateOrRequestStoragePermission() {
         // check current sdk version
         val minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
         var hasWritePermission = ContextCompat.checkSelfPermission(

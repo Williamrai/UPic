@@ -1,6 +1,6 @@
 package com.williamrai_zero.upic.util.di
 
-import com.williamrai_zero.upic.source.remote.ImageService
+import com.williamrai_zero.upic.remote.ImageService
 import com.williamrai_zero.upic.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides

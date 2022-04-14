@@ -9,7 +9,6 @@ import android.net.NetworkCapabilities.*
 import android.os.Build
 import androidx.lifecycle.*
 import com.williamrai_zero.upic.MyApplication
-import com.williamrai_zero.upic.R
 import com.williamrai_zero.upic.model.ImageItem
 import com.williamrai_zero.upic.repository.ImageRepository
 import com.williamrai_zero.upic.util.networkutil.Resource
@@ -38,13 +37,11 @@ constructor(
     }
 
     fun getAllImages() = viewModelScope.launch {
-        safeLoadingImages()
+        safelyLoadImages()
     }
 
-    /**
-     *
-     */
-    private suspend fun safeLoadingImages() {
+
+    private suspend fun safelyLoadImages() {
         _response.postValue(Resource.Loading())
         try {
             if (hasInternetConnection()) {
@@ -64,7 +61,9 @@ constructor(
     }
 
     /**
-     *
+     * decides to emit success or error state in the responseImage livedata
+     * @param {Response<T>} response the response from the network
+     * @return {Response<T>} Returns Resource state
      */
     private fun handleImageResponse(response: Response<List<ImageItem>>): Resource<List<ImageItem>> {
         if (response.isSuccessful) {
@@ -75,6 +74,10 @@ constructor(
         return Resource.Error(response.message())
     }
 
+    /**
+     * checks the capabilities of the current network
+     * @return {Boolean} Returns a boolean based on the status of the network
+     */
     private fun hasInternetConnection(): Boolean {
         val connectivityManager = getApplication<MyApplication>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
