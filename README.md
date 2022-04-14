@@ -5,7 +5,8 @@
 2. Coroutine
 3. Lifecycle
 4. Retrofit
-5. Coil(Coroutine Image Loader)
+5. Glide
+6. swiperefreshlayout
 
 ## High Level Design Overview
 ![high_level](high_level.png)
