@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.provider.MediaStore
+import com.williamrai_zero.upic.R
 import java.io.IOException
 
 
@@ -36,10 +37,10 @@ class ImageStorage(private val context: Context) {
             context.contentResolver.insert(imageCollection, contentValues)?.also {uri ->
                 context.contentResolver.openOutputStream(uri).use { outputStream ->
                     if(!bmp.compress(Bitmap.CompressFormat.JPEG,95,outputStream)) {
-                        throw  IOException("Couldn't save bitmap")
+                        throw  IOException(context.getString(R.string.cannot_save_bitmap))
                     }
                 }
-            } ?: throw IOException("Fail to create MediaStore Entry")
+            } ?: throw IOException(context.getString(R.string.fail_to_create_mediastore_entry) )
             true
         } catch (e: IOException) {
             e.printStackTrace()

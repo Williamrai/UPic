@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -13,8 +12,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.williamrai_zero.upic.R
 import com.williamrai_zero.upic.databinding.ActivityFullImageBinding
 import com.williamrai_zero.upic.util.ImageStorage
+import com.williamrai_zero.upic.util.getImageName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -99,12 +100,12 @@ class FullImageActivity : AppCompatActivity() {
             ) -> {
                 // dialog to show why permission is required to the user
                 AlertDialog.Builder(this)
-                    .setTitle("Permission Required")
-                    .setMessage("Please allow us to access Storage to save Image")
-                    .setPositiveButton("Give Permission") { dialog, which ->
+                    .setTitle(getString(R.string.permission_required))
+                    .setMessage(getString(R.string.request))
+                    .setPositiveButton(getString(R.string.give_permission)) { _, _ ->
                         requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     }
-                    .setNegativeButton("Deny") { dialog, which ->
+                    .setNegativeButton(getString(R.string.deny)) { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
@@ -123,10 +124,9 @@ class FullImageActivity : AppCompatActivity() {
      * saves the image to external storage
      */
     private fun saveImage(url: String?) {
-        Log.d("saveImage", "isSaveImage")
         CoroutineScope(Dispatchers.IO).launch {
             val isSaved = imageStorage.saveImageToExternalStorage(
-                "Test",
+                getImageName(url!!),
                 Glide.with(this@FullImageActivity)
                     .asBitmap().load(url).submit().get()
             )
@@ -135,7 +135,7 @@ class FullImageActivity : AppCompatActivity() {
                 if (isSaved) {
                     Toast.makeText(
                         this@FullImageActivity,
-                        "Image Saved Successfully",
+                        getString(R.string.image_saved_successfully),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
