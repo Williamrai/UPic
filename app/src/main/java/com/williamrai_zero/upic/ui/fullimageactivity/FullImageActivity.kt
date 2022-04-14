@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.williamrai_zero.upic.databinding.ActivityFullImageBinding
 import com.williamrai_zero.upic.util.ImageStorage
+import com.williamrai_zero.upic.util.getImageName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -101,10 +102,10 @@ class FullImageActivity : AppCompatActivity() {
                 AlertDialog.Builder(this)
                     .setTitle("Permission Required")
                     .setMessage("Please allow us to access Storage to save Image")
-                    .setPositiveButton("Give Permission") { dialog, which ->
+                    .setPositiveButton("Give Permission") { _, _ ->
                         requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     }
-                    .setNegativeButton("Deny") { dialog, which ->
+                    .setNegativeButton("Deny") { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
@@ -123,10 +124,10 @@ class FullImageActivity : AppCompatActivity() {
      * saves the image to external storage
      */
     private fun saveImage(url: String?) {
-        Log.d("saveImage", "isSaveImage")
+        Log.d("saveImage", getImageName(url!!))
         CoroutineScope(Dispatchers.IO).launch {
             val isSaved = imageStorage.saveImageToExternalStorage(
-                "Test",
+                getImageName(url!!),
                 Glide.with(this@FullImageActivity)
                     .asBitmap().load(url).submit().get()
             )

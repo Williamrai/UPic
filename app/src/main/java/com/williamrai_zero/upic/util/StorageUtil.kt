@@ -10,3 +10,7 @@ inline fun <T> sdk29AbdUp(onSdk29: () -> T): T? {
         onSdk29()
     } else null
 }
+
+fun getImageName(url: String): String {
+    return url.split("/")[5]
+}
