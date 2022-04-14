@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -15,7 +16,8 @@ import com.williamrai_zero.upic.databinding.ImageLayoutBinding
 import com.williamrai_zero.upic.model.ImageItem
 import com.williamrai_zero.upic.ui.fullimageactivity.FullImageActivity
 
-class ImageAdapter(private val context: Context) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+class ImageAdapter(private val context: Context, private val onImageListener: OnImageListener) :
+    RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ImageLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -56,18 +58,19 @@ class ImageAdapter(private val context: Context) : RecyclerView.Adapter<ImageAda
 
             Glide.with(context)
                 .load(imageUrl)
-                .placeholder(R.mipmap.ic_placeholder)
+                .placeholder(R.drawable.ic_placeholder)
                 .transform(CenterCrop(), RoundedCorners(12))
                 .into(ivImages)
         }
 
         holder.binding.ivImages.setOnClickListener {
-            val intent = Intent(context, FullImageActivity::class.java)
-            intent.putExtra("url",currImage.url)
-            context.startActivity(intent)
+            onImageListener.onImageClick(currImage.url)
         }
     }
 
     override fun getItemCount() = differ.currentList.size
 
+    interface OnImageListener {
+        fun onImageClick(url: String)
+    }
 }

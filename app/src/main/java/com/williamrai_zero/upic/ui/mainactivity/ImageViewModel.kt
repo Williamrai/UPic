@@ -1,4 +1,4 @@
-package com.williamrai_zero.upic.ui.viewmodels
+package com.williamrai_zero.upic.ui.mainactivity
 
 
 import android.app.Application
@@ -7,14 +7,15 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.*
 import com.williamrai_zero.upic.MyApplication
+import com.williamrai_zero.upic.R
 import com.williamrai_zero.upic.model.ImageItem
 import com.williamrai_zero.upic.repository.ImageRepository
-import com.williamrai_zero.upic.util.Constants.IMAGE_NETWORK_ERROR
+import com.williamrai_zero.upic.util.networkutil.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -22,39 +23,42 @@ import javax.inject.Inject
 @HiltViewModel
 class ImageViewModel
 @Inject
-constructor(private val repository: ImageRepository, app: Application) :
-    AndroidViewModel(app) {
+constructor(
+    private val repository: ImageRepository,
+    private val app: Application
+) : AndroidViewModel(app) {
 
-    private val _response = MutableLiveData<List<ImageItem>>()
+    private val _response = MutableLiveData<Resource<List<ImageItem>>>()
 
-    val responseImage: LiveData<List<ImageItem>>
+    val responseImage: LiveData<Resource<List<ImageItem>>>
         get() = _response
 
     init {
         getAllImages()
     }
 
-    private fun getAllImages() = viewModelScope.launch {
+    fun getAllImages() = viewModelScope.launch {
         safeLoadingImages()
     }
 
+    /**
+     *
+     */
     private suspend fun safeLoadingImages() {
+        _response.postValue(Resource.Loading())
         try {
-            if(checkInternetConnection()) {
+            if (hasInternetConnection()) {
                 repository.getAllImages().let { response ->
-                    if (response.isSuccessful) {
-                        _response.postValue(response.body())
-                    } else {
-                        Log.d(IMAGE_NETWORK_ERROR, "ERROR")
-                    }
+                    _response.postValue(handleImageResponse(response))
                 }
             } else {
-                _response.postValue(listOf(ImageItem("no internet connection","","")))
+                _response.postValue(Resource.Error("No Internet connection. Please check your network."))
             }
 
         } catch (t: Throwable) {
             when (t) {
-                is IOException ->  _response.postValue(listOf(ImageItem("Network Failure","","")))
+                is IOException -> _response.postValue(Resource.Error("Network Failure"))
+                else -> _response.postValue(Resource.Error("Error: ${t.message}"))
             }
         }
     }
@@ -62,10 +66,17 @@ constructor(private val repository: ImageRepository, app: Application) :
     /**
      *
      */
-    private fun checkInternetConnection(): Boolean {
-        val connectivityManager = getApplication<MyApplication>().getSystemService(
-            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun handleImageResponse(response: Response<List<ImageItem>>): Resource<List<ImageItem>> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
+    }
 
+    private fun hasInternetConnection(): Boolean {
+        val connectivityManager = getApplication<MyApplication>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val activeNetwork = connectivityManager.activeNetwork ?: return false
             val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
@@ -76,8 +87,8 @@ constructor(private val repository: ImageRepository, app: Application) :
                 else -> false
             }
         } else {
-            connectivityManager.activeNetworkInfo?.run {
-                return when(type) {
+            connectivityManager.activeNetworkInfo?. run {
+                return when (type) {
                     TYPE_WIFI -> true
                     TYPE_MOBILE -> true
                     TYPE_ETHERNET -> true
@@ -85,10 +96,7 @@ constructor(private val repository: ImageRepository, app: Application) :
                 }
             }
         }
-
         return false
     }
-
-
 
 }

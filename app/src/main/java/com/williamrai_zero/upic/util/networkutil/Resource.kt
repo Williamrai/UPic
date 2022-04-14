@@ -1,5 +1,9 @@
-package com.williamrai_zero.upic.util
+package com.williamrai_zero.upic.util.networkutil
 
+/**
+ * Wrapper class for network responses
+ * handles success, error and loading state
+ */
 sealed class Resource<T>(
     val data: T? = null,
     val message: String? = null

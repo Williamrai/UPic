@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.williamrai_zero.upic.R
@@ -56,10 +57,16 @@ class FullImageActivity : AppCompatActivity() {
      *
      */
     private fun loadImageIntoView(url: String?) {
+        val circularProgressDrawable = CircularProgressDrawable(this)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.start()
+
         binding.apply {
             Glide
                 .with(this@FullImageActivity)
                 .load(url)
+                .placeholder(circularProgressDrawable)
                 .into(ivFullImage)
         }
     }

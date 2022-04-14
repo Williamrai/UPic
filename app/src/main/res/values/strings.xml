@@ -7,5 +7,9 @@
     <string name="green">green</string>
     <string name="red">red</string>
     <string name="color">color</string>
+    <string name="no_connection_msg">Can not connect to Internet. Please check your network and try again.</string>
+    <string name="reload">RELOAD</string>
+    <string name="first_load">first_load</string>
+    <string name="sharef_prefs">sharedPrefs</string>
 
 </resources>

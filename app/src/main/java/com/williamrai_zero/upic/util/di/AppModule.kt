@@ -25,6 +25,4 @@ class AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ImageService::class.java)
-
-
 }

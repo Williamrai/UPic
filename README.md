@@ -8,4 +8,7 @@
 5. Coil(Coroutine Image Loader)
 
 ## High Level Design Overview
-![modules](highlevel.png)
+![modules](highLevel.png)
+
+## App Flow Diagram
+![modules](app_flow.jpg)
