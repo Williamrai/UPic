@@ -1,4 +1,5 @@
 # UPic
+A Photo Application built in Kotlin. 
 
 ## Dependencies
 1. Dagger-Hilt
