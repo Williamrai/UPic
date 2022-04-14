@@ -11,5 +11,14 @@
     <string name="reload">RELOAD</string>
     <string name="first_load">first_load</string>
     <string name="sharef_prefs">sharedPrefs</string>
+    <string name="cannot_save_bitmap">Could not save bitmap</string>
+    <string name="fail_to_create_mediastore_entry">Fail to create MediaStore Entry</string>
+    <string name="no_internet_connection">No Internet connection. Please check your network.</string>
+    <string name="network_failure">Network Failure</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="request">Please allow us to access Storage to save Image</string>
+    <string name="give_permission">Give Permission</string>
+    <string name="deny">Deny</string>
+    <string name="image_saved_successfully">Image Saved Successfully</string>
 
 </resources>

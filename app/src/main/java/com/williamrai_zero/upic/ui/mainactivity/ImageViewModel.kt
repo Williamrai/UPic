@@ -9,6 +9,7 @@ import android.net.NetworkCapabilities.*
 import android.os.Build
 import androidx.lifecycle.*
 import com.williamrai_zero.upic.MyApplication
+import com.williamrai_zero.upic.R
 import com.williamrai_zero.upic.model.ImageItem
 import com.williamrai_zero.upic.repository.ImageRepository
 import com.williamrai_zero.upic.util.networkutil.Resource
@@ -28,6 +29,7 @@ constructor(
 ) : AndroidViewModel(app) {
 
     private val _response = MutableLiveData<Resource<List<ImageItem>>>()
+    private val context = getApplication<MyApplication>()
 
     val responseImage: LiveData<Resource<List<ImageItem>>>
         get() = _response
@@ -49,12 +51,12 @@ constructor(
                     _response.postValue(handleImageResponse(response))
                 }
             } else {
-                _response.postValue(Resource.Error("No Internet connection. Please check your network."))
+                _response.postValue(Resource.Error( context.getString(R.string.no_internet_connection)))
             }
 
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> _response.postValue(Resource.Error("Network Failure"))
+                is IOException -> _response.postValue(Resource.Error(context.getString(R.string.network_failure)))
                 else -> _response.postValue(Resource.Error("Error: ${t.message}"))
             }
         }
@@ -79,7 +81,7 @@ constructor(
      * @return {Boolean} Returns a boolean based on the status of the network
      */
     private fun hasInternetConnection(): Boolean {
-        val connectivityManager = getApplication<MyApplication>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val activeNetwork = connectivityManager.activeNetwork ?: return false
             val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
