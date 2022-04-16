@@ -1,20 +1,17 @@
 package com.williamrai_zero.upic.ui.mainactivity
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.williamrai_zero.upic.R
 import com.williamrai_zero.upic.databinding.ImageLayoutBinding
 import com.williamrai_zero.upic.model.ImageItem
-import com.williamrai_zero.upic.ui.fullimageactivity.FullImageActivity
 
 class ImageAdapter(private val context: Context, private val onImageListener: OnImageListener) :
     RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
@@ -35,9 +32,9 @@ class ImageAdapter(private val context: Context, private val onImageListener: On
 
         holder.binding.apply {
             val imageUrl = currImage.url
-
             // loads the image into the view
             Glide.with(context)
+                .asBitmap()
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_placeholder)
                 .transform(CenterCrop(), RoundedCorners(12))
@@ -50,7 +47,9 @@ class ImageAdapter(private val context: Context, private val onImageListener: On
         }
     }
 
-    override fun getItemCount() = differ.currentList.size
+    override fun getItemCount() : Int {
+        return differ.currentList.size
+    }
 
     inner class ViewHolder(val binding: ImageLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
