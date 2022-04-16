@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class FullImageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFullImageBinding
@@ -52,13 +53,18 @@ class FullImageActivity : AppCompatActivity() {
         circularProgressDrawable.centerRadius = 30f
         circularProgressDrawable.start()
 
-        binding.apply {
-            Glide
-                .with(this@FullImageActivity)
-                .load(url)
-                .placeholder(circularProgressDrawable)
-                .into(ivFullImage)
+        try {
+            binding.apply {
+                Glide
+                    .with(this@FullImageActivity)
+                    .load(url)
+                    .placeholder(circularProgressDrawable)
+                    .into(ivFullImage)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this,"${e.message}",Toast.LENGTH_LONG).show()
         }
+
     }
 
     /**

@@ -6,6 +6,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/williamrai/Documents/Android Resource/Keystore.ks')
+            storePassword 'HappyZombie@900'
+            keyAlias 'Key0'
+            keyPassword 'HappyZombie@900'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
@@ -24,8 +32,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -61,9 +70,6 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
-    // Coroutine Image Loader
-    // implementation("io.coil-kt:coil-compose:2.0.0-rc02")
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
