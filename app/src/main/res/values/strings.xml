@@ -1,24 +1,46 @@
 <resources>
     <string name="app_name">UPic</string>
-    <string name="save">Save</string>
+
+
+    <string name="btn_save">Save</string>
     <string name="enable">Enable</string>
-    <string name="enable_storage_permission_to_save_image">Storage permission is required to save the image</string>
-    <string name="file_key">COLOR_PREF</string>
     <string name="green">green</string>
     <string name="red">red</string>
     <string name="color">color</string>
-    <string name="no_connection_msg">Can not connect to Internet. Please check your network and try again.</string>
-    <string name="reload">RELOAD</string>
-    <string name="first_load">first_load</string>
-    <string name="sharef_prefs">sharedPrefs</string>
-    <string name="cannot_save_bitmap">Could not save bitmap</string>
-    <string name="fail_to_create_mediastore_entry">Fail to create MediaStore Entry</string>
-    <string name="no_internet_connection">No Internet connection. Please check your network.</string>
-    <string name="network_failure">Network Failure</string>
-    <string name="permission_required">Permission Required</string>
-    <string name="request">Please allow us to access Storage to save Image</string>
-    <string name="give_permission">Give Permission</string>
-    <string name="deny">Deny</string>
-    <string name="image_saved_successfully">Image Saved Successfully</string>
+
+
+
+    <!-- Shred preferences    -->
+    <string name="shared_prefs">sharedPrefs</string>
+    <string name="shared_prefs_file_key">COLOR_PREF</string>
+    <string name="shared_prefs_first_load">first_load</string>
+
+
+
+    <!--Network Messages    -->
+    <string name="network_msg_no_internet_connection">No Internet connection. Please check your network.</string>
+    <string name="network_msg_network_failure">Network Failure</string>
+    <string name="network_msg_request">Please allow us to access Storage to save Image</string>
+    <string name="network_msg_no_connection_msg">Can not connect to Internet. Please check your network and try again.</string>
+    <string name="network_msg_reload">RELOAD</string>
+
+
+    <!--Permissions Message -->
+    <string name="permission_give_permission">Give Permission</string>
+    <string name="permission_deny">Deny</string>
+    <string name="permission_permission_required">Permission Required</string>
+
+
+    <!--Storage Messages -->
+    <string name="storage_image_saved_successfully">Image Saved Successfully</string>
+    <string name="storage_enable_storage_permission_to_save_image">Storage permission is required to save the image</string>
+    <string name="storage_cannot_save_bitmap">Could not save bitmap</string>
+    <string name="storage_fail_to_create_media_store_entry">Fail to create MediaStore Entry</string>
+
+
+
+    <!-- Image    -->
+    <string name="image_full_image">FullImage</string>
+
 
 </resources>

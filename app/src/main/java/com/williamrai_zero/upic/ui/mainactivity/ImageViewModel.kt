@@ -51,12 +51,12 @@ constructor(
                     _response.postValue(handleImageResponse(response))
                 }
             } else {
-                _response.postValue(Resource.Error( context.getString(R.string.no_internet_connection)))
+                _response.postValue(Resource.Error( context.getString(R.string.network_msg_no_internet_connection)))
             }
 
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> _response.postValue(Resource.Error(context.getString(R.string.network_failure)))
+                is IOException -> _response.postValue(Resource.Error(context.getString(R.string.network_msg_network_failure)))
                 else -> _response.postValue(Resource.Error("Error: ${t.message}"))
             }
         }
