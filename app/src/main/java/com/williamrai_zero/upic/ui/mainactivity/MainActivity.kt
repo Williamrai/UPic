@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnImageListener {
 
     private fun defaultLoadState() {
         // default load value
-        sharedPref = getSharedPreferences(getString(R.string.sharef_prefs),Context.MODE_PRIVATE)
+        sharedPref = getSharedPreferences(getString(R.string.shared_prefs),Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
-            putBoolean(getString(R.string.first_load),true)
+            putBoolean(getString(R.string.shared_prefs_first_load),true)
             commit()
         }
     }
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnImageListener {
 
                     // updates the value of the key first_load in sharedPreferences
                     with(sharedPref.edit()) {
-                        putBoolean(getString(R.string.first_load),false)
+                        putBoolean(getString(R.string.shared_prefs_first_load),false)
                         commit()
                     }
                 }
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnImageListener {
                         // this check makes it possible for the app to produce error info based on user activity
                         // when user opens app without internet this if condition is true
                         // otherwise user opens app with internet and later internet is not found then false condition runs
-                        if(sharedPref.getBoolean(getString(R.string.first_load),false)) {
+                        if(sharedPref.getBoolean(getString(R.string.shared_prefs_first_load),false)) {
                             binding.llNoConnection.visibility = View.VISIBLE
 
                         } else {
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnImageListener {
     private fun showNetworkSnackBar(message: String) {
         Snackbar.make(
             binding.clMainActivity,
-            "$message",
+            message,
             Snackbar.LENGTH_LONG
         ).show()
     }

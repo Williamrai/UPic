@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- button text size -->
+    <dimen name="btn_default_size">13sp</dimen>
+
+    <!-- button size   -->
+    <dimen name="btn_corner_radius">15dp</dimen>
+</resources>

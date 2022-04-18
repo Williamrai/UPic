@@ -106,12 +106,12 @@ class FullImageActivity : AppCompatActivity() {
             ) -> {
                 // dialog to show why permission is required to the user
                 AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.permission_required))
-                    .setMessage(getString(R.string.request))
-                    .setPositiveButton(getString(R.string.give_permission)) { _, _ ->
+                    .setTitle(getString(R.string.permission_permission_required))
+                    .setMessage(getString(R.string.network_msg_request))
+                    .setPositiveButton(getString(R.string.permission_give_permission)) { _, _ ->
                         requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     }
-                    .setNegativeButton(getString(R.string.deny)) { dialog, _ ->
+                    .setNegativeButton(getString(R.string.permission_deny)) { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
@@ -141,7 +141,7 @@ class FullImageActivity : AppCompatActivity() {
                 if (isSaved) {
                     Toast.makeText(
                         this@FullImageActivity,
-                        getString(R.string.image_saved_successfully),
+                        getString(R.string.storage_image_saved_successfully),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
